@@ -1,0 +1,18 @@
+＜顧客台帳（users）＞
+id				ID
+mail			メールアドレス
+pass			パスワード
+plan_id			プランID
+search_remain	残検索回数
+search_count	総検索回数
+delete_flg		削除フラグ
+login_time		最終ログイン時間
+create_time		アカウント作成時間
+update_time		更新時間
+
+＜プラン台帳（plan）＞
+plan_id			プランID
+name			プラン名
+detail			プラン詳細
+fee				プラン料金
+search_limit	検索上限数
