@@ -3,8 +3,6 @@
 import socket
 import urllib.request
 
-from contextlib import contextmanager
-
 # timeout in seconds
 timeout = 120
 socket.setdefaulttimeout(timeout)
@@ -40,37 +38,6 @@ MAX_THREAD_TSUTAYA = 700
 
 
 
-@contextmanager
-def fetch_url(url, max_times=10, sleep_sec=5):
-    """
-    HTTP通信をしてステータスコード200が返ってこなかった場合、
-    一定の回数再試行をします。 一定の回数試しても駄目な場合、
-    最後に開いたファイルオブジェクトを返します。
-    Args:
-        max_times: 最大試行回数
-        sleep_sec: 接続失敗時にスリープする秒数
-    例:
-        with fetch_url('http://www.18th-technote.com/') as f:
-            f.read()
-    """
-    retry_count = 0
-    while True:
-        f = urllib.request.urlopen(url)
-        try:
-            retry_count += 1
-            if f.getcode() == 200 or retry_count >= max_times:
-                # 200が返ってくるか、最大試行回数に到達した場合
-                # ファイルオブジェクトをyieldした後にループを抜けます。
-                yield f
-                break
-            time.sleep(sleep_sec)
-        except urllib.error.URLError:
-            if len(exc.args) > 0 and isinstance(exc.args[0], socket.timeout):
-                print('urllibソケットタイムアウトを検出、リトライします。')
-        except socket.timeout:
-            print('ソケットタイムアウトを検出、リトライします。')
-        finally:
-            f.close()
 
 
 
@@ -279,11 +246,13 @@ class srch_kinokuniya( QtCore.QThread ):
                         sleep(0.1)
 
                 if list_kinokuniya[i][3] == '-1':
-                        self.sig_text.emit('◆ ' + list_kinokuniya[i][1] + ' ' + list_kinokuniya[i][2] + ' 閉店など：店舗リストを確認してください。')
+                        # self.sig_text.emit('◆ ' + list_kinokuniya[i][1] + ' ' + list_kinokuniya[i][2] + ' 閉店など：店舗リストを確認してください。')
+                        pass
 
 
                 elif list_kinokuniya[i][3] == '-2':
-                        self.sig_text.emit('◆ ' + list_kinokuniya[i][1] + ' ' + list_kinokuniya[i][2] + ' 災害など：店舗情報を確認してください。')
+                        # self.sig_text.emit('◆ ' + list_kinokuniya[i][1] + ' ' + list_kinokuniya[i][2] + ' 災害など：店舗情報を確認してください。')
+                        pass
 
                
                 elif list_kinokuniya[i][3] != '0':
@@ -712,8 +681,8 @@ def get_stock_libro(isbn, shop_info):
         retry_count = 0
 
         payload = {
-            'uid': 'yuki.tanaka.lib@gmail.com',
-            'pwd': '09415644'
+            'uid': 'm4554503059@dea-love.net',
+            'pwd': 'm4554503059'
         }
 
         while True:
@@ -1092,7 +1061,7 @@ class srch_miyawaki( QtCore.QThread ):
                     if len(miyawaki_data) == 0:
                         self.sig_text.emit('') # 在庫なし
                     elif len(miyawaki_data) == 1:
-                        self.sig_text.emit(miyawaki_data[0].text.replace('\n', '').replace('\r', ''))
+                        self.sig_text.emit("(WEB)" + miyawaki_data[0].text.replace('\n', '').replace('\r', ''))
                     else:
                         self.sig_text.emit('宮脇書店:HTMLが不正です。読込部をチェックしてください。')
 
@@ -1639,13 +1608,13 @@ class MyWidget(QWidget):
                 ### 部品作成 #####################################################
 
                 # 検索部
-                self.label_ISBN = QLabel('ISBN/JAN')
+                self.label_ISBN = QLabel('ISBNコード')
                 self.label_ISBN.setFixedWidth(55)
                 self.txt_ISBN = QLineEdit()
                 self.txt_ISBN.setFixedWidth(90)
-                self.button = QPushButton('本')
+                self.button = QPushButton('検索')
                 self.button.setFixedWidth(60)
-                self.paste_button = QPushButton('本貼検')
+                self.paste_button = QPushButton('貼付検索')
                 self.paste_button.setFixedWidth(60)
 
                 # CD/DVD(blu-ray)検索部
@@ -2051,8 +2020,8 @@ class MyWidget(QWidget):
                 ### デフォルト情報セット
 
                 self.txt_ISBN.setText(str(default_test_ISBN))
-                self.txt_mirai.append('（注意）石巻, 大阪ﾄﾞｰﾑｼﾃｨ,鹿児島,沖縄ﾗｲｶﾑのみの場合は、海外文庫で処理された可能性が高いため、除外すること')
-                
+                # self.txt_mirai.append('（注意）石巻, 大阪ﾄﾞｰﾑｼﾃｨ,鹿児島,沖縄ﾗｲｶﾑのみの場合は、海外文庫で処理された可能性が高いため、除外すること')
+                self.txt_libro.append('※専用ページアクセスのため、他より時間を要します')
 
                 ### レイアウトをセット ############################################
                 
