@@ -35,6 +35,10 @@ default_test_ISBN = 9784492533871
 
 MAX_THREAD_TSUTAYA = 700
 
+import list_honto
+print(list_honto.shop)
+
+
 
 # ISBN->ASIN
 def isbn2asin(isbn13):
@@ -410,11 +414,10 @@ class srch_hontojp( QtCore.QThread ):
 
                 tmp_list[0] = '0000'
                 tmp_list[1] = honto_data_name[i].text.replace('\t', '').replace('\n', '').replace('\r', '')
-                
-                #if honto_data_tel[i].text != None:
-                #    tmp_list[2] = honto_data_tel[i].text.replace('\t', '').replace('\n', '').replace('\r', '')
-                #else:
-                #    tmp_list[2] = '番号なし'
+               
+                if(list_honto.shop.get(tmp_list[1]) != None):
+                    tmp_list[2] = list_honto.shop.get(tmp_list[1])[1]
+                    tmp_list[1] = '（' + list_honto.shop.get(tmp_list[1])[0] + '）' + tmp_list[1]
 
                 tmp_list[3] = honto_data_stock[i].text[2:3]
                
@@ -427,10 +430,9 @@ class srch_hontojp( QtCore.QThread ):
                 tmp_list[0] = '0000'
                 tmp_list[1] = honto_data_name[i].text.replace('\t', '').replace('\n', '').replace('\r', '')
                 
-                #if honto_data_tel[i].text != None:
-                #    tmp_list[2] = honto_data_tel[i].text.replace('\t', '').replace('\n', '').replace('\r', '')
-                #else:
-                #    tmp_list[2] = '番号なし'
+                if(list_honto.shop.get(tmp_list[1]) != None):
+                    tmp_list[2] = list_honto.shop.get(tmp_list[1])[1]
+                    tmp_list[1] = '（' + list_honto.shop.get(tmp_list[1])[0] + '）' + tmp_list[1]
 
                 tmp_list[3] = honto_data_stock[i].text[2:3]
                
@@ -443,10 +445,9 @@ class srch_hontojp( QtCore.QThread ):
                 tmp_list[0] = '0000'
                 tmp_list[1] = honto_data_name[i].text.replace('\t', '').replace('\n', '').replace('\r', '')
                 
-                #if honto_data_tel[i].text != None:
-                #    tmp_list[2] = honto_data_tel[i].text.replace('\t', '').replace('\n', '').replace('\r', '')
-                #else:
-                #    tmp_list[2] = '番号なし'
+                if(list_honto.shop.get(tmp_list[1]) != None):
+                    tmp_list[2] = list_honto.shop.get(tmp_list[1])[1]
+                    tmp_list[1] = '（' + list_honto.shop.get(tmp_list[1])[0] + '）' + tmp_list[1]
                 
                 tmp_list[3] = honto_data_stock[i].text[2:3]
             
@@ -459,10 +460,9 @@ class srch_hontojp( QtCore.QThread ):
                 tmp_list[0] = '0000'
                 tmp_list[1] = honto_data_name[i].text.replace('\t', '').replace('\n', '').replace('\r', '')
 
-                #if honto_data_tel[i].text != None:
-                #    tmp_list[2] = honto_data_tel[i].text.replace('\t', '').replace('\n', '').replace('\r', '')
-                #else:
-                #    tmp_list[2] = '番号なし'
+                if(list_honto.shop.get(tmp_list[1]) != None):
+                    tmp_list[2] = list_honto.shop.get(tmp_list[1])[1]
+                    tmp_list[1] = '（' + list_honto.shop.get(tmp_list[1])[0] + '）' + tmp_list[1]
 
                 tmp_list[3] = honto_data_stock[i].text[2:3]
                
