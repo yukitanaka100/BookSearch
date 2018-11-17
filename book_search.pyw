@@ -12,15 +12,14 @@ from fake_useragent import UserAgent
 UA = UserAgent()
 
 
-
-
 import requests
 import lxml.html
 import threading
 from time import sleep
 import copy
-
 import sys
+
+
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel,
                              QHBoxLayout, QVBoxLayout, QLineEdit,
                              QTextEdit, QProgressBar, QGroupBox, QMessageBox)
@@ -29,7 +28,7 @@ from PyQt5 import QtCore
 
 # 自作モジュール
 # C:\Users\quick1324\AppData\Local\Programs\Python\Python36-32\Lib
-import mws_mod
+#import mws_mod
 
 
 default_test_ISBN = 9784492533871
@@ -37,8 +36,29 @@ default_test_ISBN = 9784492533871
 MAX_THREAD_TSUTAYA = 700
 
 
+# ISBN->ASIN
+def isbn2asin(isbn13):
+    
+    isbn10 = isbn13[3:12]
+    check_digit = 0
+
+    for i in range(len(isbn10)):
+        check_digit += int(isbn10[i]) * (10 - i)
+
+    check_digit = 11 - (check_digit % 11)
+
+    if check_digit == 10:
+        check_digit = 'X'
+    elif check_digit == 11:
+        check_digit = '0'
+    else:
+        check_digit = str(check_digit)
+
+    isbn10 += check_digit
+    return isbn10
 
 
+#print(isbn2asin(str(default_test_ISBN)))
 
 
 # mirai===================================================================
@@ -1403,7 +1423,7 @@ class srch_cf( QtCore.QThread ):
  
     def setup( self, isbn ):
         self.stoppped = False
-        self.asin = mws_mod.get_asin(isbn)
+        self.asin = isbn2asin(isbn)
 
     def stop( self ):
         with QtCore.QMutexLocker( self.mutex ):
